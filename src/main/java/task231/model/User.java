@@ -37,11 +37,11 @@ public class User {
         this.username = username;
     }
 
-    public String getCreateDate() {
+    public String getUserInfo() {
         return userInfo;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
     }
 }

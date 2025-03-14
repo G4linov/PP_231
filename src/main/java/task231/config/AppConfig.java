@@ -9,11 +9,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import task231.model.User;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -26,7 +28,7 @@ public class AppConfig {
     private Environment env;
 
     @Bean
-    public DataSource getDataSource() {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
         dataSource.setUrl(env.getProperty("db.url"));
@@ -36,10 +38,10 @@ public class AppConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(getDataSource());
-        factoryBean.setPackagesToScan(new String[]{"task231.model"});
+        factoryBean.setDataSource(dataSource());
+        factoryBean.setPackagesToScan("task231.model");
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties props = new Properties();
@@ -50,7 +52,7 @@ public class AppConfig {
     }
 
     @Bean
-    public HibernateTransactionManager getTransactionManager() {
-        return new HibernateTransactionManager();
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }

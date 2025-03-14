@@ -2,9 +2,7 @@ package task231.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import task231.model.User;
 import task231.service.UserService;
 
@@ -29,13 +27,29 @@ public class UserController {
     @GetMapping(value = "/newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        return "createUser";
+        return "userInfo";
     }
 
+    @GetMapping(value = "/updateUser")
+    public String updateUser(@RequestParam("id") int id, Model model) {
+        model.addAttribute("user", userService.getUser(id));
+        return "userInfo";
+    }
+
+    @GetMapping(value = "/deleteUser")
+    public String deleteUser(@RequestParam("id") int id) {
+        User user = userService.getUser(id);
+        userService.deleteUser(user);
+        return "redirect:/";
+    }
 
     @PostMapping(value = "/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
-        userService.addUser(user);
+        if (user.getId() != 0) {
+            userService.updateUser(user);
+        } else {
+            userService.addUser(user);
+        }
         return "redirect:/";
     }
 }

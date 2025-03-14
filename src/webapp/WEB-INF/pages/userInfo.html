@@ -9,12 +9,12 @@
 
 <h1>User Info</h1>
 <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post">
-<input type="hidden" th:field="*{id}"/>
-<label for="username">Username:</label>
-<input type="text" id="username" th:field="*{username}"/>
-<label for="userInfo">User info:</label>
-<input type="text" id="userInfo" th:field="*{userInfo}"/>
-<button type="submit">Submit</button>
+    <input type="hidden" th:field="*{id}"/>
+    <label for="username">Username:</label>
+    <input type="text" id="username" th:field="*{username}"/>
+    <label for="userInfo">User info:</label>
+    <input type="text" id="userInfo" th:field="*{userInfo}"/>
+    <button type="submit">Submit</button>
 </form>
 
 </body>

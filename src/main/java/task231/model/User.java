@@ -14,15 +14,15 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false, name = "create_date")
-    private Date createDate;
+    @Column(nullable = true, name = "user_info")
+    private String userInfo;
 
     public User() {
     }
 
-    public User(String username, Date createDate) {
+    public User(String username, String userInfo) {
         this.username = username;
-        this.createDate = createDate;
+        this.userInfo = userInfo;
     }
 
     public long getId() {
@@ -37,11 +37,11 @@ public class User {
         this.username = username;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public String getCreateDate() {
+        return userInfo;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateDate(String createDate) {
+        this.userInfo = userInfo;
     }
 }

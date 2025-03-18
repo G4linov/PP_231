@@ -2,10 +2,12 @@ package task231.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import task231.model.User;
 import task231.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -16,6 +18,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping(value = "/")
     public String index(Model model) {
@@ -44,7 +47,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/saveUser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "userInfo";
+        }
+
         if (user.getId() != 0) {
             userService.updateUser(user);
         } else {

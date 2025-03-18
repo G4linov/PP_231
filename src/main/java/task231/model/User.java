@@ -1,6 +1,8 @@
 package task231.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
@@ -12,7 +14,13 @@ public class User {
     private int id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank(message = "Name can't be empty")
+    @Pattern(regexp = "^[A-Za-zА-Яа-яЁё]+$", message = "Name can't contain numbers")
     private String username;
+
+    @NotBlank(message = "Password can't be empty")
+    @Column(nullable = false)
+    private String password;
 
     @Column(nullable = true, name = "user_info")
     private String userInfo;
@@ -47,5 +55,13 @@ public class User {
 
     public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
